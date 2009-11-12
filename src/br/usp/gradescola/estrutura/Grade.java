@@ -4,6 +4,8 @@
  */
 package br.usp.gradescola.estrutura;
 
+import java.util.Collection;
+
 /**
  * @author Victor Williams Stafusa da Silva
  */
@@ -12,9 +14,9 @@ public class Grade {
 
     private Map<Disciplina, Professor> ministrantes;
     private Map<Horario, Map<Sala, Disciplina>> aulas;
-    private Map<Horario, List<Disciplina>> disciplinasPorHorario;
-    private Map<Disciplina, List<Horario>> horariosPorDisciplina;
-    private Map<Professor, List<Horario>> horariosPorProfessor;
+    private Map<Horario, Collection<Disciplina>> disciplinasPorHorario;
+    private Map<Disciplina, Collection<Horario>> horariosPorDisciplina;
+    private Map<Professor, Collection<Horario>> horariosPorProfessor;
 
     public Grade(Problema problema) {
         this.problema = problema;

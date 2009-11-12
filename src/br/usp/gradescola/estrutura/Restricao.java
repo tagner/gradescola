@@ -1,6 +1,11 @@
 /*
- * Grade.java
- * Criado em 2009/11/12 - 03:18
+ * Restricao.java
+ * Criado em 2009/11/12 - 03:25
+ */
+ package br.usp.gradescola.estrutura;
+
+/**
+ * @author Victor Williams Stafusa da Silva
  */
 public final class Restricao {
     private final Condicao condicao;

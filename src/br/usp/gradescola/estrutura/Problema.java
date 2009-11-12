@@ -1,8 +1,10 @@
 /*
- * Grade.java
- * Criado em 2009/11/12 - 03:18
+ * Problema.java
+ * Criado em 2009/11/12 - 03:20
  */
 package br.usp.gradescola.estrutura;
+
+import java.util.Collection;
 
 /**
  * @author Victor Williams Stafusa da Silva
