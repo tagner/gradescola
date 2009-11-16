@@ -10,7 +10,7 @@ package br.usp.gradescola.estrutura;
 public final class Horario {
     private final String nome;
 
-    public final Horario(String nome) {
+    public Horario(String nome) {
         this.nome = nome;
     }
 

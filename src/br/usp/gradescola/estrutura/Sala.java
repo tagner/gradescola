@@ -10,7 +10,7 @@ package br.usp.gradescola.estrutura;
 public final class Sala {
     private final String nome;
 
-    public final Sala(String nome) {
+    public Sala(String nome) {
         this.nome = nome;
     }
 

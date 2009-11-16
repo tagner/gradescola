@@ -10,7 +10,7 @@ package br.usp.gradescola.estrutura;
 public final class Disciplina {
     private final String nome;
 
-    public final Disciplina(String nome) {
+    public Disciplina(String nome) {
         this.nome = nome;
     }
 

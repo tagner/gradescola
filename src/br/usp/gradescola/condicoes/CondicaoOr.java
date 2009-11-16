@@ -6,6 +6,7 @@ package br.usp.gradescola.condicoes;
 
 import br.usp.gradescola.estrutura.Condicao;
 import br.usp.gradescola.estrutura.Grade;
+import java.util.Arrays;
 import java.util.Collection;
 
 /**
