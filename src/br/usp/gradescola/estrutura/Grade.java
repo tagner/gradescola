@@ -4,86 +4,39 @@
  */
 package br.usp.gradescola.estrutura;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
 
 /**
  * @author Victor Williams Stafusa da Silva
  */
-public class Grade {
-    private final Map<Disciplina, Professor> ministrantes;
-    private final Map<Horario, Map<Sala, Disciplina>> aulas;
-    private final Map<Horario, Collection<Disciplina>> disciplinasPorHorario;
-    private final Map<Disciplina, Collection<Horario>> horariosPorDisciplina;
-    private final Map<Professor, Collection<Horario>> horariosPorProfessor;
-    private final Set<Horario> horariosUsados;
-    private final Set<Horario> horariosUsadosEx;
+public interface Grade extends Cloneable {
 
-    public Grade() {
-        ministrantes = new HashMap<Disciplina, Professor>();
-        aulas = new HashMap<Horario, Map<Sala, Disciplina>>();
-        disciplinasPorHorario = new HashMap<Horario, Collection<Disciplina>>();
-        horariosPorDisciplina = new HashMap<Disciplina, Collection<Horario>>();
-        horariosPorProfessor = new HashMap<Professor, Collection<Horario>>();
-        horariosUsados = new HashSet<Horario>();
-        horariosUsadosEx = Collections.unmodifiableSet(horariosUsados);
-    }
+    public void atribuir(Disciplina disciplina, Professor professor);
 
-    public void atribuir(Disciplina disciplina, Professor professor) {
-        ministrantes.put(disciplina, professor);
-    }
+    public void atribuir(Disciplina disciplina, Iterable<Horario> horarios);
 
-    public void atribuir(Horario horario, Sala sala, Disciplina disciplina) {
-        horariosUsados.add(horario);
+    public Set<Horario> getHorarios();
 
-        Map<Sala, Disciplina> pelaSala = aulas.get(horario);
-        if (pelaSala == null) {
-            pelaSala = new HashMap<Sala, Disciplina>();
-            aulas.put(horario, pelaSala);
-        }
-        pelaSala.put(sala, disciplina);
+    public Set<Disciplina> getDisciplinas();
 
-        Collection<Disciplina> porHorario = disciplinasPorHorario.get(horario);
-        if (porHorario == null) {
-            porHorario = new ArrayList<Disciplina>();
-            disciplinasPorHorario.put(horario, porHorario);
-        }
-        porHorario.add(disciplina);
+    public Set<Professor> getProfessores();
 
-        Collection<Horario> porDisciplina = horariosPorDisciplina.get(disciplina);
-        if (porDisciplina == null) {
-            porDisciplina = new ArrayList<Horario>();
-            horariosPorDisciplina.put(disciplina, porDisciplina);
-        }
-        porDisciplina.add(horario);
+    public List<Disciplina> disciplinasPorHorario(Horario horario);
 
-        Professor professor = ministrantes.get(disciplina);
-        Collection<Horario> porProfessor = horariosPorProfessor.get(professor);
-        if (porProfessor == null) {
-            porProfessor = new ArrayList<Horario>();
-            horariosPorProfessor.put(professor, porProfessor);
-        }
-        porProfessor.add(horario);
-    }
+    public Professor professorDaDisciplina(Disciplina disciplina);
 
-    public boolean tem(Professor professor, Disciplina disciplina) {
-        return ministrantes.get(disciplina) == professor;
-    }
+    public List<Horario> horariosPorDisciplina(Disciplina disciplina);
 
-    public boolean tem(Professor professor, Horario horario) {
-        return horariosPorProfessor.get(professor).contains(horario);
-    }
+    public Set<Disciplina> disciplinasPorProfessor(Professor professor);
 
-    public boolean tem(Disciplina disciplina, Horario horario) {
-        return horariosPorDisciplina.get(disciplina).contains(horario);
-    }
+    public List<Horario> horariosPorProfessor(Professor professor);
 
-    public Set<Horario> getHorariosUsados() {
-        return horariosUsadosEx;
-    }
+    public void trocar(Horario horario1, Horario horario2);
+
+    public void trocar(Disciplina disciplina1, Disciplina disciplina2);
+
+    public void trocar(Professor professor1, Professor professor2);
+
+    public Grade clone();
 }

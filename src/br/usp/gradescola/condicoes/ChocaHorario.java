@@ -9,29 +9,31 @@ import br.usp.gradescola.estrutura.Disciplina;
 import br.usp.gradescola.estrutura.Grade;
 import br.usp.gradescola.estrutura.Horario;
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Victor Williams Stafusa da Silva
  */
 public class ChocaHorario implements Condicao {
-    private final Collection<Disciplina> disciplinas;
+    private final Iterable<Disciplina> disciplinas;
 
-    public ChocaHorario(Collection<Disciplina> disciplinas) {
+    public ChocaHorario(Iterable<Disciplina> disciplinas) {
         this.disciplinas = disciplinas;
     }
 
     public ChocaHorario(Disciplina... disciplinas) {
-        this.disciplinas = Arrays.asList(disciplinas);
+        this(Arrays.asList(disciplinas));
     }
 
     @Override
     public boolean avaliar(Grade grade) {
-        Iterable<Horario> horarios = grade.getHorariosUsados();
-        for (Horario horario : horarios) {
+        for (Horario horario : grade.getHorarios()) {
             int usado = 0;
+            List<Disciplina> disciplinasNoHorario = grade.disciplinasPorHorario(horario);
+
             for (Disciplina disciplina : disciplinas) {
-                if (grade.tem(disciplina, horario)) usado++;
+                if (disciplinasNoHorario.contains(disciplina)) usado++;
                 if (usado == 2) return true;
             }
         }

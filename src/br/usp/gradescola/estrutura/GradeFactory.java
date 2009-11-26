@@ -8,5 +8,5 @@ package br.usp.gradescola.estrutura;
  * @author Victor Williams Stafusa da Silva
  */
 public interface GradeFactory {
-    public Grade novaGrade();
+    public Grade novaGrade(Problema problema);
 }

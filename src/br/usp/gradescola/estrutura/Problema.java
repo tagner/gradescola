@@ -6,31 +6,31 @@ package br.usp.gradescola.estrutura;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Victor Williams Stafusa da Silva
  */
-public final class Problema implements GradeFactory {
-    private final Collection<Horario> horarios;
-    private final Collection<Professor> professores;
-    private final Collection<Disciplina> disciplinas;
-    private final Collection<Sala> salas;
-    private final Collection<Restricao> restricoes;
+public final class Problema {
+    private final Set<Horario> horarios;
+    private final Set<Professor> professores;
+    private final Set<Disciplina> disciplinas;
+    private final Set<Sala> salas;
+    private final List<Restricao> restricoes;
 
     private final boolean problemaConsideraSala;
     private final boolean problemaConsideraProfessor;
-    private final GradeFactory decorated;
 
-    public Problema(boolean problemaConsideraSala, boolean problemaConsideraProfessor, GradeFactory decorated) {
-        if (decorated == null) throw new IllegalArgumentException();
+    public Problema(boolean problemaConsideraSala, boolean problemaConsideraProfessor) {
         this.problemaConsideraSala = problemaConsideraSala;
         this.problemaConsideraProfessor = problemaConsideraProfessor;
-        this.horarios = new ArrayList<Horario>();
-        this.professores = new ArrayList<Professor>();
-        this.disciplinas = new ArrayList<Disciplina>();
-        this.salas = new ArrayList<Sala>();
+        this.horarios = new HashSet<Horario>();
+        this.professores = new HashSet<Professor>();
+        this.disciplinas = new HashSet<Disciplina>();
+        this.salas = new HashSet<Sala>();
         this.restricoes = new ArrayList<Restricao>();
-        this.decorated = decorated;
     }
 
     public void add(Horario horario) {
@@ -38,7 +38,6 @@ public final class Problema implements GradeFactory {
     }
 
     public void add(Professor professor) {
-        if (!problemaConsideraProfessor) throw new UnsupportedOperationException();
         professores.add(professor);
     }
 
@@ -47,7 +46,6 @@ public final class Problema implements GradeFactory {
     }
 
     public void add(Sala sala) {
-        if (!problemaConsideraSala) throw new UnsupportedOperationException();
         salas.add(sala);
     }
 
@@ -55,8 +53,25 @@ public final class Problema implements GradeFactory {
         restricoes.add(restricao);
     }
 
-    @Override
-    public Grade novaGrade() {
-        return decorated.novaGrade();
+    public Set<Horario> getHorarios() {
+        return horarios;
+    }
+
+    public Set<Disciplina> getDisciplinas() {
+        return disciplinas;
+    }
+
+    public Set<Professor> getProfessores() {
+        return professores;
+    }
+
+    public double[] avaliar(Grade grade) {
+        double[] avaliacao = new double[2];
+        for (Restricao r : restricoes) {
+            if (!r.avaliar(grade)) continue;
+            avaliacao[0] += r.getCustoReal();
+            avaliacao[1] += r.getCustoInfinito();
+        }
+        return avaliacao;
     }
 }

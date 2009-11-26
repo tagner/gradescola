@@ -9,9 +9,15 @@ package br.usp.gradescola.estrutura;
  */
 public final class Disciplina {
     private final String nome;
+    private final int cargaHoraria;
 
-    public Disciplina(String nome) {
+    public Disciplina(String nome, int cargaHoraria) {
         this.nome = nome;
+        this.cargaHoraria = cargaHoraria;
+    }
+
+    public int getCargaHoraria() {
+        return cargaHoraria;
     }
 
     @Override

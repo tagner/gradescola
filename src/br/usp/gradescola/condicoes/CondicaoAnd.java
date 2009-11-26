@@ -7,20 +7,19 @@ package br.usp.gradescola.condicoes;
 import br.usp.gradescola.estrutura.Condicao;
 import br.usp.gradescola.estrutura.Grade;
 import java.util.Arrays;
-import java.util.Collection;
 
 /**
  * @author Victor Williams Stafusa da Silva
  */
 public final class CondicaoAnd implements Condicao {
-    private final Collection<Condicao> condicoes;
+    private final Iterable<Condicao> condicoes;
 
-    public CondicaoAnd(Collection<Condicao> condicoes) {
+    public CondicaoAnd(Iterable<Condicao> condicoes) {
         this.condicoes = condicoes;
     }
 
     public CondicaoAnd(Condicao... condicoes) {
-        this.condicoes = Arrays.asList(condicoes);
+        this(Arrays.asList(condicoes));
     }
 
     @Override

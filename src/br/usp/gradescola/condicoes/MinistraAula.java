@@ -23,6 +23,6 @@ public class MinistraAula implements Condicao {
     }
 
     public boolean avaliar(Grade grade) {
-        return grade.tem(professor, disciplina);
+        return grade.professorDaDisciplina(disciplina) == professor;
     }
 }
