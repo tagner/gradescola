@@ -32,11 +32,11 @@ public interface Grade extends Cloneable {
 
     public List<Horario> horariosPorProfessor(Professor professor);
 
-    public void trocar(Horario horario1, Horario horario2);
+    public void permutar(Horario horario1, Horario horario2);
 
-    public void trocar(Disciplina disciplina1, Disciplina disciplina2);
+    public void permutar(Disciplina disciplina1, Disciplina disciplina2);
 
-    public void trocar(Professor professor1, Professor professor2);
+    public void permutar(Professor professor1, Professor professor2);
 
     public Grade clone();
 }

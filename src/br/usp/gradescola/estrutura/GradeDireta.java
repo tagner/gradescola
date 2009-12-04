@@ -19,11 +19,11 @@ import java.util.Set;
  */
 public class GradeDireta implements Grade {
 
-    private class HorarioDisciplina implements Cloneable {
+    private class GeneHorarioDisciplina implements Cloneable {
         private Horario horario;
         private Disciplina disciplina;
 
-        public HorarioDisciplina() {}
+        public GeneHorarioDisciplina() {}
 
         public Horario getHorario() {
             return horario;
@@ -42,9 +42,9 @@ public class GradeDireta implements Grade {
         }
 
         @Override
-        public HorarioDisciplina clone() {
+        public GeneHorarioDisciplina clone() {
             try {
-                return (HorarioDisciplina) super.clone();
+                return (GeneHorarioDisciplina) super.clone();
             } catch (CloneNotSupportedException e) {
                 throw new AssertionError(e);
             }
@@ -54,14 +54,14 @@ public class GradeDireta implements Grade {
     private final Set<Horario> horariosDoProblema;
     private final Set<Disciplina> disciplinasDoProblema;
     private final Set<Professor> professoresDoProblema;
-    private final List<HorarioDisciplina> celas;
+    private final List<GeneHorarioDisciplina> celas;
     private final Map<Disciplina, Professor> professorPorDisciplina;
 
     public GradeDireta(Set<Horario> horarios, Set<Disciplina> disciplinas, Set<Professor> professores) {
         this.horariosDoProblema = Collections.unmodifiableSet(horarios);
         this.disciplinasDoProblema = Collections.unmodifiableSet(disciplinas);
         this.professoresDoProblema = Collections.unmodifiableSet(professores);
-        this.celas = new LinkedList<HorarioDisciplina>();
+        this.celas = new LinkedList<GeneHorarioDisciplina>();
         this.professorPorDisciplina = new HashMap<Disciplina, Professor>(disciplinas.size());
 
         for (Disciplina d : disciplinas) {
@@ -76,13 +76,13 @@ public class GradeDireta implements Grade {
 
     @Override
     public void atribuir(Disciplina disciplina, Iterable<Horario> horarios) {
-        Iterator<HorarioDisciplina> it = this.celas.iterator();
+        Iterator<GeneHorarioDisciplina> it = this.celas.iterator();
         while (it.hasNext()) {
-            HorarioDisciplina c = it.next();
+            GeneHorarioDisciplina c = it.next();
             if (c.getDisciplina() == disciplina) it.remove();
         }
         for (Horario h : horarios) {
-            HorarioDisciplina c = new HorarioDisciplina();
+            GeneHorarioDisciplina c = new GeneHorarioDisciplina();
             c.setHorario(h);
             c.setDisciplina(disciplina);
             celas.add(c);
@@ -107,7 +107,7 @@ public class GradeDireta implements Grade {
     @Override
     public List<Disciplina> disciplinasPorHorario(Horario horario) {
         List<Disciplina> resposta = new ArrayList<Disciplina>();
-        for (HorarioDisciplina c : celas) {
+        for (GeneHorarioDisciplina c : celas) {
             if (c.getHorario() == horario) resposta.add(c.getDisciplina());
         }
         return resposta;
@@ -121,7 +121,7 @@ public class GradeDireta implements Grade {
     @Override
     public List<Horario> horariosPorDisciplina(Disciplina disciplina) {
         List<Horario> resposta = new ArrayList<Horario>();
-        for (HorarioDisciplina c : celas) {
+        for (GeneHorarioDisciplina c : celas) {
             if (c.getDisciplina() == disciplina) resposta.add(c.getHorario());
         }
         return resposta;
@@ -139,7 +139,7 @@ public class GradeDireta implements Grade {
     @Override
     public List<Horario> horariosPorProfessor(Professor professor) {
         List<Horario> resposta = new ArrayList<Horario>();
-        for (HorarioDisciplina c : celas) {
+        for (GeneHorarioDisciplina c : celas) {
             Disciplina disciplina = c.getDisciplina();
             if (professorPorDisciplina.get(disciplina) == professor) resposta.add(c.getHorario());
         }
@@ -147,8 +147,8 @@ public class GradeDireta implements Grade {
     }
 
     @Override
-    public void trocar(Horario horario1, Horario horario2) {
-        for (HorarioDisciplina c : celas) {
+    public void permutar(Horario horario1, Horario horario2) {
+        for (GeneHorarioDisciplina c : celas) {
             if (c.getHorario() == horario1) {
                 c.setHorario(horario2);
             } else if (c.getHorario() == horario2) {
@@ -158,8 +158,8 @@ public class GradeDireta implements Grade {
     }
 
     @Override
-    public void trocar(Disciplina disciplina1, Disciplina disciplina2) {
-        for (HorarioDisciplina c : celas) {
+    public void permutar(Disciplina disciplina1, Disciplina disciplina2) {
+        for (GeneHorarioDisciplina c : celas) {
             if (c.getDisciplina() == disciplina1) {
                 c.setDisciplina(disciplina2);
             } else if (c.getDisciplina() == disciplina2) {
@@ -169,7 +169,7 @@ public class GradeDireta implements Grade {
     }
 
     @Override
-    public void trocar(Professor professor1, Professor professor2) {
+    public void permutar(Professor professor1, Professor professor2) {
         Set<Disciplina> disciplinasDoProfessor1 = new HashSet<Disciplina>();
         Set<Disciplina> disciplinasDoProfessor2 = new HashSet<Disciplina>();
         for (Map.Entry<Disciplina, Professor> entry : professorPorDisciplina.entrySet()) {
@@ -191,7 +191,7 @@ public class GradeDireta implements Grade {
     @Override
     public GradeDireta clone() {
         GradeDireta grade = new GradeDireta(this.horariosDoProblema, this.disciplinasDoProblema, this.professoresDoProblema);
-        for (HorarioDisciplina h : this.celas) {
+        for (GeneHorarioDisciplina h : this.celas) {
             grade.celas.add(h.clone());
         }
         for (Map.Entry<Disciplina, Professor> entry : professorPorDisciplina.entrySet()) {

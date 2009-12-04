@@ -4,53 +4,57 @@
  */
 package br.usp.gradescola.estrutura;
 
+import java.math.BigDecimal;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static br.usp.gradescola.condicoes.CondicoesBasicas.*;
+import br.usp.gradescola.utilidades.Colecoes;
+
 /**
  * @author Victor Williams Stafusa da Silva
  */
-public final class Problema {
+public final class Problema implements GradeFactory {
+
+    public static final BigDecimal LIMIAR_BOM_DEFAULT = BigDecimal.ZERO;
+
+    public static final BigDecimal LIMIAR_RUIM_DEFAULT = BigDecimal.valueOf(1000000);
+
     private final Set<Horario> horarios;
     private final Set<Professor> professores;
     private final Set<Disciplina> disciplinas;
-    private final Set<Sala> salas;
-    private final List<Restricao> restricoes;
+    //private final Set<Sala> salas;
+    private final Condicao.Real restricao;
+    private final BigDecimal limiarRuim;
+    private final BigDecimal limiarBom;
 
-    private final boolean problemaConsideraSala;
-    private final boolean problemaConsideraProfessor;
-
-    public Problema(boolean problemaConsideraSala, boolean problemaConsideraProfessor) {
-        this.problemaConsideraSala = problemaConsideraSala;
-        this.problemaConsideraProfessor = problemaConsideraProfessor;
-        this.horarios = new HashSet<Horario>();
-        this.professores = new HashSet<Professor>();
-        this.disciplinas = new HashSet<Disciplina>();
-        this.salas = new HashSet<Sala>();
-        this.restricoes = new ArrayList<Restricao>();
+    public Problema(Condicao.Real restricao,
+                    Iterable<Horario> horarios,
+                    Iterable<Disciplina> disciplinas,
+                    Iterable<Professor> professores) {
+        this(restricao, LIMIAR_RUIM_DEFAULT, LIMIAR_BOM_DEFAULT, horarios, disciplinas, professores);
     }
 
-    public void add(Horario horario) {
-        horarios.add(horario);
-    }
+    public Problema(Condicao.Real restricao,
+                    BigDecimal limiarRuim,
+                    BigDecimal limiarBom,
+                    Iterable<Horario> horarios,
+                    Iterable<Disciplina> disciplinas,
+                    Iterable<Professor> professores) {
+        if (limiarRuim.compareTo(limiarBom) < 0) throw new IllegalArgumentException();
 
-    public void add(Professor professor) {
-        professores.add(professor);
-    }
+        this.restricao = restricao;
+        this.limiarRuim = limiarRuim;
+        this.limiarBom = limiarBom;
 
-    public void add(Disciplina disciplina) {
-        disciplinas.add(disciplina);
-    }
-
-    public void add(Sala sala) {
-        salas.add(sala);
-    }
-
-    public void add(Restricao restricao) {
-        restricoes.add(restricao);
+        this.horarios = Colecoes.copiarUnicos(horarios);
+        this.professores = Colecoes.copiarUnicos(professores);
+        this.disciplinas = Colecoes.copiarUnicos(disciplinas);
+        //this.salas = new HashSet<Sala>();
     }
 
     public Set<Horario> getHorarios() {
@@ -65,13 +69,30 @@ public final class Problema {
         return professores;
     }
 
-    public double[] avaliar(Grade grade) {
-        double[] avaliacao = new double[2];
-        for (Restricao r : restricoes) {
-            if (!r.avaliar(grade)) continue;
-            avaliacao[0] += r.getCustoReal();
-            avaliacao[1] += r.getCustoInfinito();
-        }
-        return avaliacao;
+    public BigDecimal limiarRuim() {
+        return limiarRuim;
+    }
+
+    public BigDecimal limiarBom() {
+        return limiarBom;
+    }
+
+    public BigDecimal avaliar(Grade grade) {
+        return restricao.avaliar(grade);
+    }
+
+    public static enum Avaliacao { BOM, FRACO, NAO_ADMISSIVEL }
+
+    public Avaliacao avaliacao(Grade grade) {
+        return avaliacao(restricao.avaliar(grade));
+    }
+
+    public Avaliacao avaliacao(BigDecimal a) {
+        return a.compareTo(limiarBom) <= 0 ? Avaliacao.BOM : a.compareTo(limiarRuim) < 0 ? Avaliacao.FRACO : Avaliacao.NAO_ADMISSIVEL;
+    }
+
+    @Override
+    public Grade novaGrade() {
+        return new GradeDireta(horarios, disciplinas, professores);
     }
 }

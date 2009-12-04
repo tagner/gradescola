@@ -13,8 +13,10 @@ import java.util.Collection;
 /**
  * @author Victor Williams Stafusa da Silva
  */
-public class MinistraAula implements Condicao {
+public class MinistraAula implements Condicao.Booleana {
+
     private final Disciplina disciplina;
+
     private final Professor professor;
 
     public MinistraAula(Professor professor, Disciplina disciplina) {

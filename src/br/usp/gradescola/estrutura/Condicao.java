@@ -4,9 +4,20 @@
  */
 package br.usp.gradescola.estrutura;
 
+import java.math.BigDecimal;
+
 /**
  * @author Victor Williams Stafusa da Silva
  */
-public interface Condicao {
-    public boolean avaliar(Grade grade);
+public final class Condicao {
+
+    private Condicao() {}
+
+    public static interface Booleana {
+        public boolean avaliar(Grade grade);
+    }
+
+    public static interface Real {
+        public BigDecimal avaliar(Grade grade);
+    }
 }

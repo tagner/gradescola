@@ -8,7 +8,5 @@ package br.usp.gradescola.estrutura;
  * @author Victor Williams Stafusa da Silva
  */
 public interface Mutador {
-    public Grade derivar(Grade grade);
-
-    public Grade cruzar(Grade grade1, Grade grade2);
+    public void alterar(Grade grade);
 }
