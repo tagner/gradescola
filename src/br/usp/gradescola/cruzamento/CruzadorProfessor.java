@@ -7,7 +7,7 @@ package br.usp.gradescola.cruzamento;
 import br.usp.gradescola.estrutura.Cruzador;
 import br.usp.gradescola.estrutura.Disciplina;
 import br.usp.gradescola.estrutura.Grade;
-import br.usp.gradescola.estrutura.GradeFactory;
+import br.usp.gradescola.estrutura.Problema;
 
 import br.usp.gradescola.utilidades.Sorteador;
 import br.usp.gradescola.utilidades.SorteadorRandom;
@@ -19,22 +19,22 @@ public class CruzadorProfessor implements Cruzador {
 
     private final Sorteador sorte;
 
-    private final GradeFactory factory;
+    private final Problema problema;
 
-    public CruzadorProfessor(GradeFactory factory, Sorteador sorte) {
-        this.factory = factory;
+    public CruzadorProfessor(Problema problema, Sorteador sorte) {
+        this.problema = problema;
         this.sorte = sorte;
     }
 
-    public CruzadorProfessor(GradeFactory factory) {
-        this(factory, new SorteadorRandom());
+    public CruzadorProfessor(Problema problema) {
+        this(problema, new SorteadorRandom());
     }
 
     @Override
     public Grade cruzar(Grade grade1, Grade grade2) {
         Grade base = sorte.sortearElemento(grade1, grade2);
-        Grade g = factory.novaGrade();
-        for (Disciplina d : g.getDisciplinas()) {
+        Grade g = problema.novaGrade();
+        for (Disciplina d : problema.getDisciplinas()) {
             g.atribuir(d, sorte.sortearElemento(grade1, grade2).professorDaDisciplina(d));
             g.atribuir(d, base.horariosPorDisciplina(d));
         }

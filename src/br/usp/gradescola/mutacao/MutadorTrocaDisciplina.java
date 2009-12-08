@@ -30,7 +30,7 @@ public class MutadorTrocaDisciplina implements Mutador {
 
     @Override
     public void alterar(Grade grade) {
-        List<Disciplina> lista = sorte.sortearElementos(2, grade.getDisciplinas());
+        List<Disciplina> lista = sorte.sortearElementos(2, grade.getProblema().getDisciplinas());
         grade.permutar(lista.get(0), lista.get(1));
     }
 }

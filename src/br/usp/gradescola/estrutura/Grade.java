@@ -4,23 +4,19 @@
  */
 package br.usp.gradescola.estrutura;
 
+import java.math.BigDecimal;
+
 import java.util.List;
 import java.util.Set;
 
 /**
  * @author Victor Williams Stafusa da Silva
  */
-public interface Grade extends Cloneable {
+public interface Grade extends Cloneable, Comparable<Grade> {
 
     public void atribuir(Disciplina disciplina, Professor professor);
 
     public void atribuir(Disciplina disciplina, Iterable<Horario> horarios);
-
-    public Set<Horario> getHorarios();
-
-    public Set<Disciplina> getDisciplinas();
-
-    public Set<Professor> getProfessores();
 
     public List<Disciplina> disciplinasPorHorario(Horario horario);
 
@@ -37,6 +33,10 @@ public interface Grade extends Cloneable {
     public void permutar(Disciplina disciplina1, Disciplina disciplina2);
 
     public void permutar(Professor professor1, Professor professor2);
+
+    public BigDecimal avaliar();
+
+    public Problema getProblema();
 
     public Grade clone();
 }

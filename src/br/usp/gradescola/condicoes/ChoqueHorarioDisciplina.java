@@ -33,7 +33,7 @@ public class ChoqueHorarioDisciplina implements Condicao.Real {
     @Override
     public BigDecimal avaliar(Grade grade) {
         int choques = 0;
-        for (Horario horario : grade.getHorarios()) {
+        for (Horario horario : grade.getProblema().getHorarios()) {
             boolean usado = false;
             List<Disciplina> disciplinasNoHorario = grade.disciplinasPorHorario(horario);
 

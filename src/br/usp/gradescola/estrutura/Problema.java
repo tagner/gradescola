@@ -77,6 +77,10 @@ public final class Problema implements GradeFactory {
         return limiarBom;
     }
 
+    public Condicao.Real getRestricao() {
+        return restricao;
+    }
+
     public BigDecimal avaliar(Grade grade) {
         return restricao.avaliar(grade);
     }
@@ -93,6 +97,6 @@ public final class Problema implements GradeFactory {
 
     @Override
     public Grade novaGrade() {
-        return new GradeDireta(horarios, disciplinas, professores);
+        return new GradeDireta(this);
     }
 }

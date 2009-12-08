@@ -33,7 +33,7 @@ public class CargaHorariaDisciplina implements Condicao.Real {
     @Override
     public BigDecimal avaliar(Grade grade) {
         int erro = 0;
-        for (Disciplina d : grade.getDisciplinas()) {
+        for (Disciplina d : disciplinas) {
             int h = grade.horariosPorDisciplina(d).size();
             erro += (h < 0 ? -h : h);
         }

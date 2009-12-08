@@ -18,14 +18,22 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 /**
  * @author Victor Williams Stafusa da Silva
  */
 public class Teste {
 
     private static final BigDecimal UM_MILHAO = BigDecimal.valueOf(1000000);
+    private static final int GERACOES = 50;
+    private static final int TAMANHO_POPULACAO = 100;
+    private static final int MUTACOES = 10;
+    private static final int CRUZAMENTOS = 80;
 
-    public static void main(String[] args) {
+    @Test
+    public void main() {
         Disciplina a = new Disciplina("A", 2);
         Disciplina b = new Disciplina("B", 2);
         Disciplina c = new Disciplina("C", 2);
@@ -67,10 +75,25 @@ public class Teste {
         mostrar(problema, g4, "g4");
         mostrar(problema, g5, "g5");
         mostrar(problema, g6, "g6");
+
+        PoolDireto pool = new PoolDireto(TAMANHO_POPULACAO, fac, new EvolucionadorRandom(MUTACOES, CRUZAMENTOS, mut, cruz));
+        for (int i = 0; i < GERACOES; i++) {
+            System.out.println("Geracao " + (i + 1));
+            pool.novaGeracao();
+        }
+
+        System.out.println();
+        System.out.println("---------------------------------------");
+        System.out.println(" 10 melhores geradas: ");
+        System.out.println();
+
+        for (int i = 0; i < 10; i++) {
+            mostrar(problema, pool.grade(i), i + "a melhor");
+        }
     }
 
     private static void mostrar(Problema problema, Grade g, String nome) {
-        BigDecimal a = problema.avaliar(g);
+        BigDecimal a = g.avaliar();
 
         String qualidade;
         switch (problema.avaliacao(a)) {
@@ -82,7 +105,7 @@ public class Teste {
 
         System.out.println(nome + ": Preco = " + a.toPlainString() + " - " + qualidade);
 
-        for (Disciplina d : g.getDisciplinas()) {
+        for (Disciplina d : problema.getDisciplinas()) {
             System.out.print("Horarios de " + d + " do professor " + g.professorDaDisciplina(d) + ": ");
             for (Horario h : g.horariosPorDisciplina(d)) {
                 System.out.print(h + " ");

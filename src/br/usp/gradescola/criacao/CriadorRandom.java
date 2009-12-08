@@ -24,23 +24,23 @@ public class CriadorRandom implements GradeFactory {
 
     private final Sorteador sorte;
 
-    private final GradeFactory factory;
+    private final Problema problema;
 
-    public CriadorRandom(GradeFactory factory, Sorteador sorte) {
-        this.factory = factory;
+    public CriadorRandom(Problema problema, Sorteador sorte) {
+        this.problema = problema;
         this.sorte = sorte;
     }
 
-    public CriadorRandom(GradeFactory factory) {
-        this(factory, new SorteadorRandom());
+    public CriadorRandom(Problema problema) {
+        this(problema, new SorteadorRandom());
     }
 
     @Override
     public Grade novaGrade() {
-        Grade g = factory.novaGrade();
-        Set<Horario> horarios = g.getHorarios();
-        Set<Professor> professores = g.getProfessores();
-        for (Disciplina d : g.getDisciplinas()) {
+        Grade g = problema.novaGrade();
+        Set<Horario> horarios = problema.getHorarios();
+        Set<Professor> professores = problema.getProfessores();
+        for (Disciplina d : problema.getDisciplinas()) {
             g.atribuir(d, sorte.sortearElementos(d.getCargaHoraria(), horarios));
             g.atribuir(d, sorte.sortearElemento(professores));
         }

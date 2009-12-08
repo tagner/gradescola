@@ -10,6 +10,7 @@ import br.usp.gradescola.estrutura.Disciplina;
 import br.usp.gradescola.estrutura.Grade;
 import br.usp.gradescola.estrutura.Mutador;
 import br.usp.gradescola.estrutura.Professor;
+import br.usp.gradescola.estrutura.Problema;
 
 import br.usp.gradescola.utilidades.Sorteador;
 import br.usp.gradescola.utilidades.SorteadorRandom;
@@ -31,8 +32,9 @@ public class MutadorProfessor implements Mutador {
 
     @Override
     public void alterar(Grade grade) {
-        Disciplina disciplina = sorte.sortearElemento(grade.getDisciplinas());
-        Professor professor = sorte.sortearElemento(grade.getProfessores());
+        Problema problema = grade.getProblema();
+        Disciplina disciplina = sorte.sortearElemento(problema.getDisciplinas());
+        Professor professor = sorte.sortearElemento(problema.getProfessores());
         grade.atribuir(disciplina, professor);
     }
 }

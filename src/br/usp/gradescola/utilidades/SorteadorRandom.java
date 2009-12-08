@@ -29,7 +29,7 @@ public class SorteadorRandom implements Sorteador {
     public <E> E sortearElemento(Iterable<E> elementos) {
         List<E> copia = Colecoes.copiarElementos(elementos);
         Collections.shuffle(copia, random);
-        return copia.iterator().next();
+        return copia.get(0);
     }
 
     @Override

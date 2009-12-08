@@ -30,7 +30,7 @@ public class MutadorTrocaHorario implements Mutador {
 
     @Override
     public void alterar(Grade grade) {
-        List<Horario> lista = sorte.sortearElementos(2, grade.getHorarios());
+        List<Horario> lista = sorte.sortearElementos(2, grade.getProblema().getHorarios());
         grade.permutar(lista.get(0), lista.get(1));
     }
 }

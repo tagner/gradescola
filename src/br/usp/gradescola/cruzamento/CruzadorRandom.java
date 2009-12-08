@@ -8,8 +8,8 @@ import java.util.List;
 
 import br.usp.gradescola.estrutura.Cruzador;
 import br.usp.gradescola.estrutura.Grade;
-import br.usp.gradescola.estrutura.GradeFactory;
 import br.usp.gradescola.estrutura.Horario;
+import br.usp.gradescola.estrutura.Problema;
 
 import br.usp.gradescola.utilidades.Colecoes;
 import br.usp.gradescola.utilidades.Sorteador;
@@ -42,14 +42,14 @@ public class CruzadorRandom implements Cruzador {
         this(new SorteadorRandom(), cruzadores);
     }
 
-    public CruzadorRandom(GradeFactory factory, Sorteador sorte) {
-        this(sorte, new CruzadorProfessor(factory, sorte),
-                    new CruzadorDisciplina(factory, sorte),
-                    new CruzadorHorario(factory, sorte));
+    public CruzadorRandom(Problema problema, Sorteador sorte) {
+        this(sorte, new CruzadorProfessor(problema, sorte),
+                    new CruzadorDisciplina(problema, sorte),
+                    new CruzadorHorario(problema, sorte));
     }
 
-    public CruzadorRandom(GradeFactory factory) {
-        this(factory, new SorteadorRandom());
+    public CruzadorRandom(Problema problema) {
+        this(problema, new SorteadorRandom());
     }
 
     @Override

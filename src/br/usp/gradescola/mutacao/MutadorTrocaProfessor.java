@@ -9,6 +9,7 @@ import java.util.List;
 import br.usp.gradescola.estrutura.Grade;
 import br.usp.gradescola.estrutura.Mutador;
 import br.usp.gradescola.estrutura.Professor;
+import br.usp.gradescola.estrutura.Problema;
 
 import br.usp.gradescola.utilidades.Sorteador;
 import br.usp.gradescola.utilidades.SorteadorRandom;
@@ -30,7 +31,7 @@ public class MutadorTrocaProfessor implements Mutador {
 
     @Override
     public void alterar(Grade grade) {
-        List<Professor> lista = sorte.sortearElementos(2, grade.getProfessores());
+        List<Professor> lista = sorte.sortearElementos(2, grade.getProblema().getProfessores());
         grade.permutar(lista.get(0), lista.get(1));
     }
 }

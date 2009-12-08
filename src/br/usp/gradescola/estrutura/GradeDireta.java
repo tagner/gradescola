@@ -4,6 +4,8 @@
  */
 package br.usp.gradescola.estrutura;
 
+import java.math.BigDecimal;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -51,17 +53,14 @@ public class GradeDireta implements Grade {
         }
     }
 
-    private final Set<Horario> horariosDoProblema;
-    private final Set<Disciplina> disciplinasDoProblema;
-    private final Set<Professor> professoresDoProblema;
+    private final Problema problema;
     private final List<GeneHorarioDisciplina> celas;
     private final Map<Disciplina, Professor> professorPorDisciplina;
 
-    public GradeDireta(Set<Horario> horarios, Set<Disciplina> disciplinas, Set<Professor> professores) {
-        this.horariosDoProblema = Collections.unmodifiableSet(horarios);
-        this.disciplinasDoProblema = Collections.unmodifiableSet(disciplinas);
-        this.professoresDoProblema = Collections.unmodifiableSet(professores);
+    public GradeDireta(Problema problema) {
+        this.problema = problema;
         this.celas = new LinkedList<GeneHorarioDisciplina>();
+        Set<Disciplina> disciplinas = problema.getDisciplinas();
         this.professorPorDisciplina = new HashMap<Disciplina, Professor>(disciplinas.size());
 
         for (Disciplina d : disciplinas) {
@@ -87,21 +86,6 @@ public class GradeDireta implements Grade {
             c.setDisciplina(disciplina);
             celas.add(c);
         }
-    }
-
-    @Override
-    public Set<Horario> getHorarios() {
-        return horariosDoProblema;
-    }
-
-    @Override
-    public Set<Disciplina> getDisciplinas() {
-        return disciplinasDoProblema;
-    }
-
-    @Override
-    public Set<Professor> getProfessores() {
-        return professoresDoProblema;
     }
 
     @Override
@@ -189,8 +173,23 @@ public class GradeDireta implements Grade {
     }
 
     @Override
+    public Problema getProblema() {
+        return problema;
+    }
+
+    @Override
+    public BigDecimal avaliar() {
+        return problema.avaliar(this);
+    }
+
+    @Override
+    public int compareTo(Grade obj) {
+        return avaliar().compareTo(obj.avaliar());
+    }
+
+    @Override
     public GradeDireta clone() {
-        GradeDireta grade = new GradeDireta(this.horariosDoProblema, this.disciplinasDoProblema, this.professoresDoProblema);
+        GradeDireta grade = new GradeDireta(problema);
         for (GeneHorarioDisciplina h : this.celas) {
             grade.celas.add(h.clone());
         }

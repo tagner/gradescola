@@ -11,6 +11,7 @@ import br.usp.gradescola.estrutura.Disciplina;
 import br.usp.gradescola.estrutura.Grade;
 import br.usp.gradescola.estrutura.Horario;
 import br.usp.gradescola.estrutura.Mutador;
+import br.usp.gradescola.estrutura.Problema;
 
 import br.usp.gradescola.utilidades.Colecoes;
 import br.usp.gradescola.utilidades.Sorteador;
@@ -33,16 +34,19 @@ public class MutadorHorario implements Mutador {
 
     @Override
     public void alterar(Grade grade) {
-        Disciplina disciplina = sorte.sortearElemento(grade.getDisciplinas());
+        Problema problema = grade.getProblema();
+        Disciplina disciplina = sorte.sortearElemento(problema.getDisciplinas());
 
         List<Horario> horarios = grade.horariosPorDisciplina(disciplina);
-        Set<Horario> todos = grade.getHorarios();
+        Set<Horario> todos = problema.getHorarios();
         List<Horario> substitutos = Colecoes.copiarElementos(todos);
         List<Horario> novos = Colecoes.copiarElementos(horarios);
 
+        if (horarios.isEmpty()) return;
+
         substitutos.removeAll(horarios);
 
-        novos.remove(sorte.sortearElemento(novos));
+        novos.remove(sorte.sortearElemento(horarios));
         novos.add(sorte.sortearElemento(substitutos));
 
         grade.atribuir(disciplina, novos);
