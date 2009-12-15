@@ -28,18 +28,18 @@ public final class Problema implements GradeFactory {
     private final Set<Professor> professores;
     private final Set<Disciplina> disciplinas;
     //private final Set<Sala> salas;
-    private final Condicao.Real restricao;
+    private final Condicao.Numerica restricao;
     private final BigDecimal limiarRuim;
     private final BigDecimal limiarBom;
 
-    public Problema(Condicao.Real restricao,
+    public Problema(Condicao.Numerica restricao,
                     Iterable<Horario> horarios,
                     Iterable<Disciplina> disciplinas,
                     Iterable<Professor> professores) {
         this(restricao, LIMIAR_RUIM_DEFAULT, LIMIAR_BOM_DEFAULT, horarios, disciplinas, professores);
     }
 
-    public Problema(Condicao.Real restricao,
+    public Problema(Condicao.Numerica restricao,
                     BigDecimal limiarRuim,
                     BigDecimal limiarBom,
                     Iterable<Horario> horarios,
@@ -77,7 +77,7 @@ public final class Problema implements GradeFactory {
         return limiarBom;
     }
 
-    public Condicao.Real getRestricao() {
+    public Condicao.Numerica getRestricao() {
         return restricao;
     }
 

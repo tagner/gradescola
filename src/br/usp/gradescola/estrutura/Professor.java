@@ -5,17 +5,15 @@
 package br.usp.gradescola.estrutura;
 
 /**
+ * Objeto que representa um professor de uma disciplina.
+ * @see ProfessorSimples
  * @author Victor Williams Stafusa da Silva
  */
-public final class Professor {
-    private final String nome;
+public interface Professor {
 
-    public Professor(String nome) {
-        this.nome = nome;
-    }
-
-    @Override
-    public String toString() {
-        return nome;
-    }
+    /**
+     * Obtém o nome do professor.
+     * @return O nome do professor.
+     */
+    public String toString();
 }

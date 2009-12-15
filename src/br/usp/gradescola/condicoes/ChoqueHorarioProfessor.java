@@ -20,7 +20,7 @@ import java.util.Set;
 /**
  * @author Victor Williams Stafusa da Silva
  */
-public class ChoqueHorarioProfessor implements Condicao.Real {
+public class ChoqueHorarioProfessor implements Condicao.Numerica {
 
     private final Iterable<Professor> professores;
 

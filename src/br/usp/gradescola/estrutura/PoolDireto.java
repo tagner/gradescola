@@ -23,21 +23,11 @@ public class PoolDireto implements Pool {
 
     private final int tamanho;
 
-    private final GradeComparator comparator;
-
-    private class GradeComparator implements Comparator<Grade> {
-        @Override
-        public int compare(Grade grade1, Grade grade2) {
-            return grade1.compareTo(grade2);
-        }
-    }
-
     public PoolDireto(int tamanho, GradeFactory factory, Evolucionador evolucionador) {
         this.evolucionador = evolucionador;
         this.tamanho = tamanho;
 
         this.pool = new ArrayList<Grade>(tamanho);
-        this.comparator = new GradeComparator();
 
         for (int i = 0; i < tamanho; i++) {
             pool.add(factory.novaGrade());
@@ -58,7 +48,7 @@ public class PoolDireto implements Pool {
     @Override
     public void novaGeracao() {
         pool.addAll(evolucionador.populacaoNova(pool));
-        Collections.sort(pool, comparator);
+        Collections.sort(pool);
         pool.subList(tamanho, pool.size()).clear();
     }
 

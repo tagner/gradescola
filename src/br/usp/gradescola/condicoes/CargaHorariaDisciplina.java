@@ -18,7 +18,7 @@ import java.util.Set;
 /**
  * @author Victor Williams Stafusa da Silva
  */
-public class CargaHorariaDisciplina implements Condicao.Real {
+public class CargaHorariaDisciplina implements Condicao.Numerica {
 
     private final Iterable<Disciplina> disciplinas;
 

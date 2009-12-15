@@ -26,7 +26,6 @@ import static org.junit.Assert.*;
  */
 public class Teste {
 
-    private static final BigDecimal UM_MILHAO = BigDecimal.valueOf(1000000);
     private static final int GERACOES = 50;
     private static final int TAMANHO_POPULACAO = 100;
     private static final int MUTACOES = 10;
@@ -34,26 +33,26 @@ public class Teste {
 
     @Test
     public void main() {
-        Disciplina a = new Disciplina("A", 2);
-        Disciplina b = new Disciplina("B", 2);
-        Disciplina c = new Disciplina("C", 2);
+        Disciplina a = new DisciplinaSimples("A", 2);
+        Disciplina b = new DisciplinaSimples("B", 2);
+        Disciplina c = new DisciplinaSimples("C", 2);
         List<Disciplina> disciplinas = Arrays.asList(a, b, c);
 
-        Professor p1 = new Professor("Joao");
-        Professor p2 = new Professor("Maria");
+        Professor p1 = new ProfessorSimples("Joao");
+        Professor p2 = new ProfessorSimples("Maria");
         List<Professor> professores = Arrays.asList(p1, p2);
 
-        Horario h1 = new Horario("Segunda-feira");
-        Horario h2 = new Horario("Terca-feira");
-        Horario h3 = new Horario("Quarta-feira");
-        Horario h4 = new Horario("Quinta-feira");
-        Horario h5 = new Horario("Sexta-feira");
+        Horario h1 = new HorarioSimples("Segunda-feira");
+        Horario h2 = new HorarioSimples("Terca-feira");
+        Horario h3 = new HorarioSimples("Quarta-feira");
+        Horario h4 = new HorarioSimples("Quinta-feira");
+        Horario h5 = new HorarioSimples("Sexta-feira");
         List<Horario> horarios = Arrays.asList(h1, h2, h3, h4, h5);
 
-        Condicao.Real choqueRuim = multiplicar(valor(Problema.LIMIAR_RUIM_DEFAULT), new ChoqueHorarioDisciplina(a, b));
-        Condicao.Real choqueProfessor = multiplicar(valor(Problema.LIMIAR_RUIM_DEFAULT), new ChoqueHorarioProfessor(professores));
+        Condicao.Numerica choqueRuim = multiplicar(valor(Problema.LIMIAR_RUIM_DEFAULT), new ChoqueHorarioDisciplina(a, b));
+        Condicao.Numerica choqueProfessor = multiplicar(valor(Problema.LIMIAR_RUIM_DEFAULT), new ChoqueHorarioProfessor(professores));
         Condicao.Booleana coisaChata = or(new MinistraAula(p1, a), new MinistraAula(p1, b));
-        Condicao.Real restricoes = somar(choqueRuim, valor(coisaChata), choqueProfessor);
+        Condicao.Numerica restricoes = somar(choqueRuim, valor(coisaChata), choqueProfessor);
 
         Problema problema = new Problema(restricoes, horarios, disciplinas, professores);
         Mutador mut = new MutadorRandom();

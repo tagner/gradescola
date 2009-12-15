@@ -5,17 +5,14 @@
 package br.usp.gradescola.estrutura;
 
 /**
+ * Objeto que representa um horário no qual são alocadas disciplinas.
+ * @see HorarioSimples
  * @author Victor Williams Stafusa da Silva
- */
-public final class Horario {
-    private final String nome;
+ */public interface Horario {
 
-    public Horario(String nome) {
-        this.nome = nome;
-    }
-
-    @Override
-    public String toString() {
-        return nome;
-    }
+    /**
+     * Obtém o nome do horário.
+     * @return O nome do horário.
+     */
+    public String toString();
 }

@@ -12,10 +12,16 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 
 /**
+ * Contém funções utilitárias para a utilização de condições booleanas
+ * e aritméticas comuns.
  * @author Victor Williams Stafusa da Silva
  */
 public final class CondicoesBasicas {
 
+    /**
+     * Construtor privado para impedir a instanciação. Esta classe não
+     * deve ser instanciável.
+     */
     private CondicoesBasicas() {}
 
     private static final class CondicaoAnd implements Condicao.Booleana {
@@ -35,10 +41,24 @@ public final class CondicoesBasicas {
         }
     }
 
+    /**
+     * Cria uma condição booleana que combina diversas condições
+     * booleanas dadas por meio do operador booleano AND.
+     * @param condicoes As condições a serem combinadas.
+     * @return Uma condição que combina (por meio do operador AND) as
+     * condições dadas.
+     */
     public static Condicao.Booleana and(Iterable<Condicao.Booleana> condicoes) {
         return new CondicaoAnd(condicoes);
     }
 
+    /**
+     * Cria uma condição booleana que combina diversas condições
+     * booleanas dadas por meio do operador booleano AND.
+     * @param condicoes As condições a serem combinadas.
+     * @return Uma condição que combina (por meio do operador AND) as
+     * condições dadas.
+     */
     public static Condicao.Booleana and(Condicao.Booleana... condicoes) {
         return and(Arrays.asList(condicoes));
     }
@@ -60,10 +80,24 @@ public final class CondicoesBasicas {
         }
     }
 
+    /**
+     * Cria uma condição booleana que combina diversas condições
+     * booleanas dadas por meio do operador booleano OR.
+     * @param condicoes As condições a serem combinadas.
+     * @return Uma condição que combina (por meio do operador OR) as
+     * condições dadas.
+     */
     public static Condicao.Booleana or(Iterable<Condicao.Booleana> condicoes) {
         return new CondicaoOr(condicoes);
     }
 
+    /**
+     * Cria uma condição booleana que combina diversas condições
+     * booleanas dadas por meio do operador booleano OR.
+     * @param condicoes As condições a serem combinadas.
+     * @return Uma condição que combina (por meio do operador OR) as
+     * condições dadas.
+     */
     public static Condicao.Booleana or(Condicao.Booleana... condicoes) {
         return or(Arrays.asList(condicoes));
     }
@@ -81,11 +115,18 @@ public final class CondicoesBasicas {
         }
     }
 
+    /**
+     * Cria uma condição booleana que quando avaliada, inverte a
+     * resposta de uma outra condição booleana dada.
+     * @param condicoes A condição dada.
+     * @return Uma condição que inverte a avaliação de uma outra
+     * condição.
+     */
     public static Condicao.Booleana not(Condicao.Booleana condicao) {
         return new CondicaoNot(condicao);
     }
 
-    private static final class Contagem implements Condicao.Real {
+    private static final class Contagem implements Condicao.Numerica {
 
         private final Iterable<Condicao.Booleana> condicoes;
 
@@ -103,15 +144,31 @@ public final class CondicoesBasicas {
         }
     }
 
-    public static Condicao.Real contagem(Iterable<Condicao.Booleana> condicoes) {
+    /**
+     * Cria uma condição numérica que quando avaliada, fornece a
+     * quantidade das condições booleanas dadas que são verdadeiras.
+     * Em outras palavras, conta quantas condições são verdadeiras.
+     * @param condicoes As condições a serem avaliadas.
+     * @return Uma condição que quando avaliada, conta quantas das
+     * condições dadas são verdadeiras.
+     */
+    public static Condicao.Numerica contagem(Iterable<Condicao.Booleana> condicoes) {
         return new Contagem(condicoes);
     }
 
-    public static Condicao.Real contagem(Condicao.Booleana... condicoes) {
+    /**
+     * Cria uma condição numérica que quando avaliada, fornece a
+     * quantidade das condições booleanas dadas que são verdadeiras.
+     * Em outras palavras, conta quantas condições são verdadeiras.
+     * @param condicoes As condições a serem avaliadas.
+     * @return Uma condição que quando avaliada, conta quantas das
+     * condições dadas são verdadeiras.
+     */
+    public static Condicao.Numerica contagem(Condicao.Booleana... condicoes) {
         return contagem(Arrays.asList(condicoes));
     }
 
-    private static final class BooleanaParaNumerica implements Condicao.Real {
+    private static final class BooleanaParaNumerica implements Condicao.Numerica {
         private final Condicao.Booleana condicao;
 
         public BooleanaParaNumerica(Condicao.Booleana condicao) {
@@ -124,67 +181,103 @@ public final class CondicoesBasicas {
         }
     }
 
-    public static Condicao.Real valor(Condicao.Booleana condicao) {
+    /**
+     * Cria uma condição numérica que quando avaliada, retorna 1 se
+     * a avaliação de uma dada condição booleana for verdadeira e 0
+     * caso contrário.
+     * @param condicoes A condição a serem avaliadas.
+     * @return Uma condição que quando avaliada, retorna 1 se a
+     * condição dada for verdadeira e 0 se não for.
+     */
+    public static Condicao.Numerica valor(Condicao.Booleana condicao) {
         return new BooleanaParaNumerica(condicao);
     }
 
-    private static final class CondicaoMultiplica implements Condicao.Real {
+    private static final class CondicaoMultiplica implements Condicao.Numerica {
 
-        private final Iterable<Condicao.Real> condicoes;
+        private final Iterable<Condicao.Numerica> condicoes;
 
-        public CondicaoMultiplica(Iterable<Condicao.Real> condicoes) {
+        public CondicaoMultiplica(Iterable<Condicao.Numerica> condicoes) {
             this.condicoes = condicoes;
         }
 
         @Override
         public BigDecimal avaliar(Grade grade) {
             BigDecimal resposta = BigDecimal.ONE;
-            for (Condicao.Real condicao : condicoes) {
+            for (Condicao.Numerica condicao : condicoes) {
                 resposta = resposta.multiply(condicao.avaliar(grade));
             }
             return resposta;
         }
     }
 
-    public static Condicao.Real multiplicar(Iterable<Condicao.Real> condicoes) {
+    /**
+     * Cria uma condição numérica que combina diversas condições
+     * numéricas dadas multiplicando o valor dado pela avaliação delas.
+     * @param condicoes As condições a serem combinadas.
+     * @return Uma condição que multiplica o valor da avaliação das
+     * condições dadas.
+     */
+    public static Condicao.Numerica multiplicar(Iterable<Condicao.Numerica> condicoes) {
         return new CondicaoMultiplica(condicoes);
     }
 
-    public static Condicao.Real multiplicar(Condicao.Real... condicoes) {
+    /**
+     * Cria uma condição numérica que combina diversas condições
+     * numéricas dadas multiplicando o valor dado pela avaliação delas.
+     * @param condicoes As condições a serem combinadas.
+     * @return Uma condição que multiplica o valor da avaliação das
+     * condições dadas.
+     */
+    public static Condicao.Numerica multiplicar(Condicao.Numerica... condicoes) {
         return multiplicar(Arrays.asList(condicoes));
     }
 
-    private static final class CondicaoSoma implements Condicao.Real {
+    private static final class CondicaoSoma implements Condicao.Numerica {
 
-        private final Iterable<Condicao.Real> condicoes;
+        private final Iterable<Condicao.Numerica> condicoes;
 
-        public CondicaoSoma(Iterable<Condicao.Real> condicoes) {
+        public CondicaoSoma(Iterable<Condicao.Numerica> condicoes) {
             this.condicoes = condicoes;
         }
 
         @Override
         public BigDecimal avaliar(Grade grade) {
             BigDecimal resposta = BigDecimal.ONE;
-            for (Condicao.Real condicao : condicoes) {
+            for (Condicao.Numerica condicao : condicoes) {
                 resposta = resposta.add(condicao.avaliar(grade));
             }
             return resposta;
         }
     }
 
-    public static Condicao.Real somar(Iterable<Condicao.Real> condicoes) {
+    /**
+     * Cria uma condição numérica que combina diversas condições
+     * numéricas dadas somando o valor dado pela avaliação delas.
+     * @param condicoes As condições a serem combinadas.
+     * @return Uma condição que soma o valor da avaliação das
+     * condições dadas.
+     */
+    public static Condicao.Numerica somar(Iterable<Condicao.Numerica> condicoes) {
         return new CondicaoSoma(condicoes);
     }
 
-    public static Condicao.Real somar(Condicao.Real... condicoes) {
+    /**
+     * Cria uma condição numérica que combina diversas condições
+     * numéricas dadas somando o valor dado pela avaliação delas.
+     * @param condicoes As condições a serem combinadas.
+     * @return Uma condição que soma o valor da avaliação das
+     * condições dadas.
+     */
+    public static Condicao.Numerica somar(Condicao.Numerica... condicoes) {
         return somar(Arrays.asList(condicoes));
     }
 
-    private static final class CondicaoMenos implements Condicao.Real {
+    private static final class CondicaoMenos implements Condicao.Numerica {
 
-        private final Condicao.Real condicao;
+        private final Condicao.Numerica condicao;
 
-        public CondicaoMenos(Condicao.Real condicao) {
+        public CondicaoMenos(Condicao.Numerica condicao) {
             this.condicao = condicao;
         }
 
@@ -194,15 +287,22 @@ public final class CondicoesBasicas {
         }
     }
 
-    public static Condicao.Real negar(Condicao.Real condicao) {
+    /**
+     * Cria uma condição numérica que quando avaliada, inverte o sinal
+     * da avaliação de uma outra condição numérica dada.
+     * @param condicoes A condição dada.
+     * @return Uma condição que inverte a avaliação de uma outra
+     * condição.
+     */
+    public static Condicao.Numerica negar(Condicao.Numerica condicao) {
         return new CondicaoMenos(condicao);
     }
 
-    private static final class ConstanteReal implements Condicao.Real {
+    private static final class ConstanteNumerica implements Condicao.Numerica {
 
         private final BigDecimal constante;
 
-        public ConstanteReal(BigDecimal constante) {
+        public ConstanteNumerica(BigDecimal constante) {
             this.constante = constante;
         }
 
@@ -212,7 +312,15 @@ public final class CondicoesBasicas {
         }
     }
 
-    public static Condicao.Real valor(BigDecimal constante) {
-        return new ConstanteReal(constante);
+    /**
+     * Cria uma condição numérica que quando avaliada, retorna sempre
+     * um mesmo valor. Tal valor é informado pelo parâmetro.
+     * @param constante O valor a ser retornado quando a condição
+     * retornada é avaliada.
+     * @return Uma condição que quando avaliada, retorna o valor
+     * informado no parâmetro.
+     */
+    public static Condicao.Numerica valor(BigDecimal constante) {
+        return new ConstanteNumerica(constante);
     }
 }

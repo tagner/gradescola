@@ -17,7 +17,7 @@ public final class Condicao {
         public boolean avaliar(Grade grade);
     }
 
-    public static interface Real {
+    public static interface Numerica {
         public BigDecimal avaliar(Grade grade);
     }
 }

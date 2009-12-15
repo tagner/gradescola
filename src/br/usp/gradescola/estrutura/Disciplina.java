@@ -5,23 +5,21 @@
 package br.usp.gradescola.estrutura;
 
 /**
+ * Objeto que representa uma disciplina a ser oferecida.
+ * @see DisciplinaSimples
  * @author Victor Williams Stafusa da Silva
  */
-public final class Disciplina {
-    private final String nome;
-    private final int cargaHoraria;
+public interface Disciplina {
 
-    public Disciplina(String nome, int cargaHoraria) {
-        this.nome = nome;
-        this.cargaHoraria = cargaHoraria;
-    }
+    /**
+     * Obtém a quantidade de horários que são usados pela disciplina.
+     * @return A quantidade de horários que são usados pela disciplina.
+     */
+    public int getCargaHoraria();
 
-    public int getCargaHoraria() {
-        return cargaHoraria;
-    }
-
-    @Override
-    public String toString() {
-        return nome;
-    }
+    /**
+     * Obtém o nome da disciplina.
+     * @return O nome da disciplina.
+     */
+    public String toString();
 }
