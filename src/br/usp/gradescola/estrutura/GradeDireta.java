@@ -167,7 +167,7 @@ public class GradeDireta implements Grade {
         }
     }
 
-    @Override
+    /*@Override
     public void permutar(Disciplina disciplina1, Disciplina disciplina2) {
         for (GeneHorarioDisciplina c : celas) {
             if (c.getDisciplina() == disciplina1) {
@@ -176,7 +176,7 @@ public class GradeDireta implements Grade {
                 c.setDisciplina(disciplina1);
             }
         }
-    }
+    }*/
 
     @Override
     public void permutar(Professor professor1, Professor professor2) {

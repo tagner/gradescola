@@ -27,7 +27,7 @@ public class MutadorRandom implements Mutador {
     private static List<Mutador> mutadoresPadrao(Problema problema, Sorteador sorte) {
         List<Mutador> lista = new ArrayList<Mutador>();
 
-        lista.add(new MutadorTrocaDisciplina(sorte));
+        lista.add(new MutadorTrocaHorarioDisciplina(sorte));
         lista.add(new MutadorTrocaHorario(sorte));
         lista.add(new MutadorHorario(sorte));
 

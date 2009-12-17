@@ -133,11 +133,11 @@ public class TesteEnsinoMedio {
         Horario segunda4 = new HorarioSimples("Segunda-feira 10:00");
         Horario segunda5 = new HorarioSimples("Segunda-feira 10:45");
 
-        Horario terca1 = new HorarioSimples("Terça-feira 07:30");
-        Horario terca2 = new HorarioSimples("Terça-feira 08:15");
-        Horario terca3 = new HorarioSimples("Terça-feira 09:00");
-        Horario terca4 = new HorarioSimples("Terça-feira 10:00");
-        Horario terca5 = new HorarioSimples("Terça-feira 10:45");
+        Horario terca1 = new HorarioSimples("Terca-feira 07:30");
+        Horario terca2 = new HorarioSimples("Terca-feira 08:15");
+        Horario terca3 = new HorarioSimples("Terca-feira 09:00");
+        Horario terca4 = new HorarioSimples("Terca-feira 10:00");
+        Horario terca5 = new HorarioSimples("Terca-feira 10:45");
 
         Horario quarta1 = new HorarioSimples("Quarta-feira 07:30");
         Horario quarta2 = new HorarioSimples("Quarta-feira 08:15");
@@ -165,7 +165,7 @@ public class TesteEnsinoMedio {
                                                sexta1, sexta2, sexta3, sexta4, sexta5);
 
         // Restrição: A carga horária das disciplinas devem ser respeitadas.
-        Condicao.Numerica cargaHoraria = multiplicar(valor(ParametrosProblema.LIMIAR_RUIM_DEFAULT), new CargaHorariaDisciplina(disciplinas));
+        Condicao.Numerica cargaHoraria = multiplicar(valor(ParametrosProblema.LIMIAR_RUIM_DEFAULT.multiply(BigDecimal.valueOf(100))), new CargaHorariaDisciplina(disciplinas));
 
         // Restrição: Evitar colocar educação física no final.
         Condicao.Numerica educacaoFisicaNoFinal =

@@ -34,7 +34,7 @@ public class CargaHorariaDisciplina implements Condicao.Numerica {
     public BigDecimal avaliar(Grade grade) {
         int erro = 0;
         for (Disciplina d : disciplinas) {
-            int h = grade.horariosPorDisciplina(d).size();
+            int h = grade.horariosPorDisciplina(d).size() - d.getCargaHoraria();
             erro += (h < 0 ? -h : h);
         }
         return BigDecimal.valueOf(erro);

@@ -94,7 +94,7 @@ public class Teste {
         System.out.println();
 
         for (int i = 0; i < 10; i++) {
-            mostrar(problema, pool.grade(i), i + "a melhor");
+            mostrar(problema, pool.grade(i), (i + 1) + "a melhor");
         }
     }
 

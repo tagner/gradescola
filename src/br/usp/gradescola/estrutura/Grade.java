@@ -52,7 +52,7 @@ public interface Grade extends Cloneable, Comparable<Grade> {
 
     public void permutar(Horario horario1, Horario horario2);
 
-    public void permutar(Disciplina disciplina1, Disciplina disciplina2);
+    //public void permutar(Disciplina disciplina1, Disciplina disciplina2);
 
     public void permutar(Professor professor1, Professor professor2);
 
