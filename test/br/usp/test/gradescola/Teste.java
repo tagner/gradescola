@@ -49,13 +49,20 @@ public class Teste {
         Horario h5 = new HorarioSimples("Sexta-feira");
         List<Horario> horarios = Arrays.asList(h1, h2, h3, h4, h5);
 
-        Condicao.Numerica choqueRuim = multiplicar(valor(Problema.LIMIAR_RUIM_DEFAULT), new ChoqueHorarioDisciplina(a, b));
-        Condicao.Numerica choqueProfessor = multiplicar(valor(Problema.LIMIAR_RUIM_DEFAULT), new ChoqueHorarioProfessor(professores));
+        Condicao.Numerica choqueRuim = multiplicar(valor(ParametrosProblema.LIMIAR_RUIM_DEFAULT), new ChoqueHorarioDisciplina(a, b));
+        Condicao.Numerica cargaHoraria = multiplicar(valor(ParametrosProblema.LIMIAR_RUIM_DEFAULT), new CargaHorariaDisciplina(disciplinas));
+        Condicao.Numerica choqueProfessor = multiplicar(valor(ParametrosProblema.LIMIAR_RUIM_DEFAULT), new ChoqueHorarioProfessor(professores));
         Condicao.Booleana coisaChata = or(new MinistraAula(p1, a), new MinistraAula(p1, b));
         Condicao.Numerica restricoes = somar(choqueRuim, valor(coisaChata), choqueProfessor);
 
-        Problema problema = new Problema(restricoes, horarios, disciplinas, professores);
-        Mutador mut = new MutadorRandom();
+        ParametrosProblema params = new ParametrosProblema();
+        params.setRestricao(restricoes);
+        params.setHorarios(horarios);
+        params.setDisciplinas(disciplinas);
+        params.setProfessores(professores);
+        Problema problema = new Problema(params);
+
+        Mutador mut = new MutadorRandom(problema);
         Cruzador cruz = new CruzadorRandom(problema);
         GradeFactory fac = new CriadorRandom(problema);
 

@@ -5,17 +5,17 @@
 package br.usp.gradescola.estrutura;
 
 /**
+ * NÃO SUPORTADO!
+ * Objeto que representa uma sala, aonde professores dão aula de
+ * disciplinas em determinados horários.
+ * @see SalaSimples
  * @author Victor Williams Stafusa da Silva
  */
-public final class Sala {
-    private final String nome;
+public interface Sala {
 
-    public Sala(String nome) {
-        this.nome = nome;
-    }
-
-    @Override
-    public String toString() {
-        return nome;
-    }
+    /**
+     * Obtém o nome da sala.
+     * @return O nome da sala.
+     */
+    public String toString();
 }

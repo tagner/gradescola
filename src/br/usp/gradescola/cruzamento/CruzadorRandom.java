@@ -4,6 +4,7 @@
  */
 package br.usp.gradescola.cruzamento;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.usp.gradescola.estrutura.Cruzador;
@@ -24,6 +25,19 @@ public class CruzadorRandom implements Cruzador {
 
     private final List<Cruzador> cruzadores;
 
+    private static List<Cruzador> cruzadoresPadrao(Problema problema, Sorteador sorte) {
+        List<Cruzador> lista = new ArrayList<Cruzador>();
+
+        lista.add(new CruzadorDisciplina(problema, sorte));
+        lista.add(new CruzadorHorario(problema, sorte));
+
+        if (problema.isOtimizarProfessores()) {
+            lista.add(new CruzadorProfessor(problema, sorte));
+        }
+
+        return lista;
+    }
+
     public CruzadorRandom(Sorteador sorte, Cruzador... cruzadores) {
         this.sorte = sorte;
         this.cruzadores = Colecoes.copiarElementos(cruzadores);
@@ -43,9 +57,7 @@ public class CruzadorRandom implements Cruzador {
     }
 
     public CruzadorRandom(Problema problema, Sorteador sorte) {
-        this(sorte, new CruzadorProfessor(problema, sorte),
-                    new CruzadorDisciplina(problema, sorte),
-                    new CruzadorHorario(problema, sorte));
+        this(sorte, cruzadoresPadrao(problema, sorte));
     }
 
     public CruzadorRandom(Problema problema) {

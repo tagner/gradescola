@@ -6,7 +6,7 @@ package br.usp.gradescola.estrutura;
 
 /**
  * Implementação simples da interface {@linkplain Horario}, que
- * consiste apenas do nome do horário, informado por meio do parâmtero
+ * consiste apenas do nome do horário, informado por meio do parâmetro
  * do construtor.
  * @author Victor Williams Stafusa da Silva
  */

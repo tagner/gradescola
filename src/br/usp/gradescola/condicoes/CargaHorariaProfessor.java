@@ -1,30 +1,30 @@
 /*
- * MinistraAula.java
- * Criado em 2009/11/12 - 07:43
+ * CargaHorariaDisciplina.java
+ * Criado em 2009/12/04 - 00:26
  */
 package br.usp.gradescola.condicoes;
 
 import br.usp.gradescola.estrutura.Condicao;
 import br.usp.gradescola.estrutura.Disciplina;
 import br.usp.gradescola.estrutura.Grade;
+import br.usp.gradescola.estrutura.Horario;
 import br.usp.gradescola.estrutura.Professor;
+
+import java.math.BigDecimal;
 
 /**
  * @author Victor Williams Stafusa da Silva
  */
-public class MinistraAula implements Condicao.Booleana {
-
-    private final Disciplina disciplina;
+public class CargaHorariaProfessor implements Condicao.Numerica {
 
     private final Professor professor;
 
-    public MinistraAula(Professor professor, Disciplina disciplina) {
+    public CargaHorariaProfessor(Professor professor) {
         this.professor = professor;
-        this.disciplina = disciplina;
     }
 
     @Override
-    public boolean avaliar(Grade grade) {
-        return grade.professorDaDisciplina(disciplina) == professor;
+    public BigDecimal avaliar(Grade grade) {
+        return BigDecimal.valueOf(grade.horariosPorProfessor(professor).size());
     }
 }

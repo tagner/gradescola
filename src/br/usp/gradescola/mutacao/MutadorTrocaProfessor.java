@@ -8,8 +8,8 @@ import java.util.List;
 
 import br.usp.gradescola.estrutura.Grade;
 import br.usp.gradescola.estrutura.Mutador;
-import br.usp.gradescola.estrutura.Professor;
 import br.usp.gradescola.estrutura.Problema;
+import br.usp.gradescola.estrutura.Professor;
 
 import br.usp.gradescola.utilidades.Sorteador;
 import br.usp.gradescola.utilidades.SorteadorRandom;

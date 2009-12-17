@@ -20,10 +20,6 @@ import br.usp.gradescola.utilidades.Colecoes;
  */
 public final class Problema implements GradeFactory {
 
-    public static final BigDecimal LIMIAR_BOM_DEFAULT = BigDecimal.ZERO;
-
-    public static final BigDecimal LIMIAR_RUIM_DEFAULT = BigDecimal.valueOf(1000000);
-
     private final Set<Horario> horarios;
     private final Set<Professor> professores;
     private final Set<Disciplina> disciplinas;
@@ -31,30 +27,22 @@ public final class Problema implements GradeFactory {
     private final Condicao.Numerica restricao;
     private final BigDecimal limiarRuim;
     private final BigDecimal limiarBom;
+    private final boolean otimizarProfessores;
+    //private final boolean otimizarSalas;
 
-    public Problema(Condicao.Numerica restricao,
-                    Iterable<Horario> horarios,
-                    Iterable<Disciplina> disciplinas,
-                    Iterable<Professor> professores) {
-        this(restricao, LIMIAR_RUIM_DEFAULT, LIMIAR_BOM_DEFAULT, horarios, disciplinas, professores);
-    }
+    public Problema(ParametrosProblema params) {
+        params.checarConsistecia();
 
-    public Problema(Condicao.Numerica restricao,
-                    BigDecimal limiarRuim,
-                    BigDecimal limiarBom,
-                    Iterable<Horario> horarios,
-                    Iterable<Disciplina> disciplinas,
-                    Iterable<Professor> professores) {
-        if (limiarRuim.compareTo(limiarBom) < 0) throw new IllegalArgumentException();
+        this.restricao = params.getRestricao();
+        this.limiarRuim = params.getLimiarRuim();
+        this.limiarBom = params.getLimiarBom();
+        this.otimizarProfessores = params.isOtimizarProfessores();
+        //this.otimizarSalas = params.isOtimizarSalas();
 
-        this.restricao = restricao;
-        this.limiarRuim = limiarRuim;
-        this.limiarBom = limiarBom;
-
-        this.horarios = Colecoes.copiarUnicos(horarios);
-        this.professores = Colecoes.copiarUnicos(professores);
-        this.disciplinas = Colecoes.copiarUnicos(disciplinas);
-        //this.salas = new HashSet<Sala>();
+        this.horarios = Colecoes.copiarUnicos(params.getHorarios());
+        this.professores = Colecoes.copiarUnicos(params.getProfessores());
+        this.disciplinas = Colecoes.copiarUnicos(params.getDisciplinas());
+        //this.salas = Colecoes.copiarUnicos(params.getSalas());
     }
 
     public Set<Horario> getHorarios() {
@@ -68,6 +56,10 @@ public final class Problema implements GradeFactory {
     public Set<Professor> getProfessores() {
         return professores;
     }
+
+    /*public Set<Sala> getSalas() {
+        return salas;
+    }*/
 
     public BigDecimal limiarRuim() {
         return limiarRuim;
@@ -94,6 +86,14 @@ public final class Problema implements GradeFactory {
     public Avaliacao avaliacao(BigDecimal a) {
         return a.compareTo(limiarBom) <= 0 ? Avaliacao.BOM : a.compareTo(limiarRuim) < 0 ? Avaliacao.FRACO : Avaliacao.NAO_ADMISSIVEL;
     }
+
+    public boolean isOtimizarProfessores() {
+        return otimizarProfessores;
+    }
+
+    /*public boolean isOtimizarSalas() {
+        return otimizarSalas;
+    }*/
 
     @Override
     public Grade novaGrade() {

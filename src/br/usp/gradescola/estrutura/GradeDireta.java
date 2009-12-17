@@ -24,6 +24,7 @@ public class GradeDireta implements Grade {
     private class GeneHorarioDisciplina implements Cloneable {
         private Horario horario;
         private Disciplina disciplina;
+        //private Sala sala;
 
         public GeneHorarioDisciplina() {}
 
@@ -35,6 +36,10 @@ public class GradeDireta implements Grade {
             return disciplina;
         }
 
+        /*public Sala getSala() {
+            return sala;
+        }*/
+
         public void setHorario(Horario horario) {
             this.horario = horario;
         }
@@ -42,6 +47,10 @@ public class GradeDireta implements Grade {
         public void setDisciplina(Disciplina disciplina) {
             this.disciplina = disciplina;
         }
+
+        /*public void setSala(Sala sala) {
+            this.sala = sala;
+        }*/
 
         @Override
         public GeneHorarioDisciplina clone() {
@@ -88,6 +97,15 @@ public class GradeDireta implements Grade {
         }
     }
 
+    /*@Override
+    public void atribuir(Disciplina disciplina, Horario horario, Sala sala) {
+        for (GeneHorarioDisciplina c : this.celas) {
+            if (c.getDisciplina() != disciplina || c.getHorario() != horario) continue;
+            c.setSala(sala);
+            break;
+        }
+    }*/
+
     @Override
     public List<Disciplina> disciplinasPorHorario(Horario horario) {
         List<Disciplina> resposta = new ArrayList<Disciplina>();
@@ -96,6 +114,14 @@ public class GradeDireta implements Grade {
         }
         return resposta;
     }
+
+    /*@Override
+    public Sala salaLocada(Disciplina disciplina, Horario horario) {
+        for (GeneHorarioDisciplina c : this.celas) {
+            if (c.getDisciplina() != disciplina || c.getHorario() != horario) continue;
+            return c.getSala();
+        }
+    }*/
 
     @Override
     public Professor professorDaDisciplina(Disciplina disciplina) {
@@ -171,6 +197,17 @@ public class GradeDireta implements Grade {
             professorPorDisciplina.put(d, professor1);
         }
     }
+
+    /*@Override
+    public void permutar(Sala sala1, Sala sala2) {
+        for (GeneHorarioDisciplina c : celas) {
+            if (c.getSala() == sala1) {
+                c.setSala(sala2);
+            } else if (c.getSala() == sala2) {
+                c.setSala(sala1);
+            }
+        }
+    }*/
 
     @Override
     public Problema getProblema() {

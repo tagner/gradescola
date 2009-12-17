@@ -4,14 +4,12 @@
  */
 package br.usp.gradescola.mutacao;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
 
-import br.usp.gradescola.estrutura.Disciplina;
 import br.usp.gradescola.estrutura.Grade;
-import br.usp.gradescola.estrutura.Horario;
 import br.usp.gradescola.estrutura.Mutador;
-import br.usp.gradescola.estrutura.Professor;
+import br.usp.gradescola.estrutura.Problema;
 
 import br.usp.gradescola.utilidades.Colecoes;
 import br.usp.gradescola.utilidades.Sorteador;
@@ -25,6 +23,21 @@ public class MutadorRandom implements Mutador {
     private final Sorteador sorte;
 
     private final List<Mutador> mutadores;
+
+    private static List<Mutador> mutadoresPadrao(Problema problema, Sorteador sorte) {
+        List<Mutador> lista = new ArrayList<Mutador>();
+
+        lista.add(new MutadorTrocaDisciplina(sorte));
+        lista.add(new MutadorTrocaHorario(sorte));
+        lista.add(new MutadorHorario(sorte));
+
+        if (problema.isOtimizarProfessores()) {
+            lista.add(new MutadorTrocaProfessor(sorte));
+            lista.add(new MutadorProfessor(sorte));
+        }
+
+        return lista;
+    }
 
     public MutadorRandom(Sorteador sorte, Mutador... mutadores) {
         this.sorte = sorte;
@@ -44,16 +57,12 @@ public class MutadorRandom implements Mutador {
         this(new SorteadorRandom(), mutadores);
     }
 
-    public MutadorRandom(Sorteador sorte) {
-        this(sorte, new MutadorTrocaProfessor(sorte),
-                    new MutadorTrocaDisciplina(sorte),
-                    new MutadorTrocaHorario(sorte),
-                    new MutadorProfessor(sorte),
-                    new MutadorHorario(sorte));
+    public MutadorRandom(Problema problema, Sorteador sorte) {
+        this(sorte, mutadoresPadrao(problema, sorte));
     }
 
-    public MutadorRandom() {
-        this(new SorteadorRandom());
+    public MutadorRandom(Problema problema) {
+        this(problema, new SorteadorRandom());
     }
 
     @Override
